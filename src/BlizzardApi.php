@@ -99,21 +99,20 @@ abstract class BlizzardApi
     {
         $url = $this->prepareURL($url, $options);
 
-            if(Cache::has($url)) {
-                return Cache::get($url);
-            }
+        if (Cache::has($url)) {
+            return Cache::get($url);
+        }
 
-            $responseCode = 0;
-            $data = $this->execute($url, $responseCode);
+        $responseCode = 0;
+        $data = $this->execute($url, $responseCode);
 
-            if ($responseCode === 200) {
-                return Cache::flexible($url, $options['ttl'] ?? 86400, function () use ($data) {
-                    return json_decode($data);
-                });
-            }
+        if ($responseCode === 200) {
+            return Cache::flexible($url, $options['ttl'] ?? 86400, function () use ($data) {
+                return json_decode($data);
+            });
+        }
 
-            throw new Exception("Request to '$url' failed", $responseCode);
-
+        throw new Exception("Request to '$url' failed", $responseCode);
     }
 
     /**
