@@ -144,6 +144,8 @@ abstract class BlizzardApi
             'version' => EndpointVersion::retail,
         ];
 
+        $queryString = array_diff_key($options, $defaultOptions);
+
         if (array_key_exists('namespace', $options)) {
             $queryString['namespace'] = $this->endpointNamespace($options['namespace'], $options['version']);
         }
