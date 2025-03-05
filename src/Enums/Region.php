@@ -9,9 +9,6 @@ enum Region: string
     case KO = 'ko';
     case TW = 'tw';
 
-    /**
-     * @return int
-     */
     public function id(): int
     {
         return match ($this) {

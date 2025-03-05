@@ -4,7 +4,8 @@ namespace LeeMarkWood\BlizzardApi;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-//use LeeMarkWood\BlizzardApi\Commands\BlizzardApiCommand;
+
+// use LeeMarkWood\BlizzardApi\Commands\BlizzardApiCommand;
 
 class BlizzardApiServiceProvider extends PackageServiceProvider
 {
@@ -13,8 +14,8 @@ class BlizzardApiServiceProvider extends PackageServiceProvider
         $package
             ->name('blizzard-api')
             ->hasConfigFile();
-//            ->hasViews()
-//            ->hasMigration('create_blizzard_api_table')
-//            ->hasCommand(BlizzardApiCommand::class);
+        //            ->hasViews()
+        //            ->hasMigration('create_blizzard_api_table')
+        //            ->hasCommand(BlizzardApiCommand::class);
     }
 }

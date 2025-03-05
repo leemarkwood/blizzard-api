@@ -2,12 +2,12 @@
 
 namespace LeeMarkWood\BlizzardApi\WoW;
 
+use Exception;
 use LeeMarkWood\BlizzardApi\BlizzardApi;
 use LeeMarkWood\BlizzardApi\Enums\BaseURL;
 use LeeMarkWood\BlizzardApi\Enums\Game;
 use LeeMarkWood\BlizzardApi\Enums\Region;
 use stdClass;
-use Exception;
 
 class GameData extends BlizzardApi
 {
@@ -17,10 +17,6 @@ class GameData extends BlizzardApi
         parent::__construct($region, $accessToken);
     }
 
-    /**
-     * @param  string  $endpointUri
-     * @return string
-     */
     protected function requestUrl(string $endpointUri = ''): string
     {
         $url = $this->baseUrl(BaseURL::game_data);
@@ -32,9 +28,8 @@ class GameData extends BlizzardApi
     }
 
     /**
-     * @param  array  $options
-     * @return array|stdClass
      * @throws Exception
+     *
      * @link https://develop.battle.net/documentation/world-of-warcraft/game-data-apis
      */
     public function getRealmList(array $options): array|stdClass

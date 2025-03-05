@@ -2,6 +2,7 @@
 
 namespace LeeMarkWood\BlizzardApi;
 
+use Exception;
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -9,55 +10,56 @@ use LeeMarkWood\BlizzardApi\Enums\BaseURL;
 use LeeMarkWood\BlizzardApi\Enums\EndpointNamespace;
 use LeeMarkWood\BlizzardApi\Enums\EndpointVersion;
 use LeeMarkWood\BlizzardApi\Enums\Game;
-use LeeMarkWood\BlizzardApi\Enums\OAuth2Scope;
 use LeeMarkWood\BlizzardApi\Enums\Region;
-use Exception;
 use stdClass;
 
-abstract class BlizzardApi {
-
+abstract class BlizzardApi
+{
     protected $api_key;
+
     protected $api_secret;
 
     /**
-     * @var string $accessToken Cached access token.
+     * @var string Cached access token.
      */
     protected string $accessToken;
 
     /**
-     * @var Region $region API region
+     * @var Region API region
      */
     protected Region $region;
 
     /**
-     * @var Game $game Game name
+     * @var Game Game name
      */
     protected Game $game = Game::None;
 
     /**
      * Creates an interface for calling API Endpoints
-     * @param Region|null $region One of the supported API regions: Region::US, REGION_EU, REGION_KO or REGION_TW
-     * @param string|null $accessToken Allow to specify an access_token for the requests, useful for specifying a
-     *   token obtained using authorization_code flow.
+     *
+     * @param  Region|null  $region  One of the supported API regions: Region::US, REGION_EU, REGION_KO or REGION_TW
+     * @param  string|null  $accessToken  Allow to specify an access_token for the requests, useful for specifying a
+     *                                    token obtained using authorization_code flow.
+     *
      * @throws Exception In case a token cannot be obtained.
      */
-    public function __construct(Region|null $region = null, string|null $accessToken = '')
+    public function __construct(?Region $region = null, ?string $accessToken = '')
     {
         $this->region = $region ?: config('blizzard-api.region', Region::EU);
         $this->api_key = config('blizzard-api.api_key');
         $this->api_secret = config('blizzard-api.api_secret');
 
-        # Using an externally created token
+        // Using an externally created token
         if ($accessToken) {
             $this->accessToken = $accessToken;
         } else {
-            # Get token from cache or request a new one
+            // Get token from cache or request a new one
             $this->accessToken = $this->getAccessToken();
         }
     }
 
     /**
-     * @param BaseURL $scope API scope to apply the base URL
+     * @param  BaseURL  $scope  API scope to apply the base URL
      * @return string Base URL to call endpoints
      */
     protected function baseUrl(BaseURL $scope): string
@@ -74,7 +76,7 @@ abstract class BlizzardApi {
             $response = Http::withBasicAuth($this->api_key, $this->api_secret)
                 ->asForm()
                 ->post($this->baseUrl(BaseURL::oauth_token), [
-                    'grant_type' => 'client_credentials'
+                    'grant_type' => 'client_credentials',
                 ]);
 
             if ($response->failed()) {
@@ -88,16 +90,16 @@ abstract class BlizzardApi {
     }
 
     /**
-     * @param string $url The endpoint url
-     * @param array $options An array containing options for a single request
-     * @return stdClass|array
+     * @param  string  $url  The endpoint url
+     * @param  array  $options  An array containing options for a single request
+     *
      * @throws Exception
      */
     public function performRequest(string $url, array $options = []): stdClass|array
     {
         $url = $this->prepareURL($url, $options);
 
-        return Cache::flexible($url, $options['ttl'] ?? 86400, function() use ($url, $options) {
+        return Cache::flexible($url, $options['ttl'] ?? 86400, function () use ($url) {
             $responseCode = 0;
             $data = $this->execute($url, $responseCode);
 
@@ -110,8 +112,8 @@ abstract class BlizzardApi {
     }
 
     /**
-     * @param string $url The endpoint URL
-     * @param array $options Options and additional query string parameters
+     * @param  string  $url  The endpoint URL
+     * @param  array  $options  Options and additional query string parameters
      * @return string Well formed URL
      */
     protected function prepareURL(string $url, array $options): string
@@ -124,11 +126,12 @@ abstract class BlizzardApi {
                 $url .= "?$queryString";
             }
         }
+
         return $url;
     }
 
     /**
-     * @param array $options An array containing options for a single request
+     * @param  array  $options  An array containing options for a single request
      * @return string The query string params for this request
      */
     private function extractQueryString(array &$options): string
@@ -138,7 +141,7 @@ abstract class BlizzardApi {
             'region' => $this->region,
             'accessToken' => $this->accessToken,
             'namespace' => EndpointNamespace::static,
-            'version' => EndpointVersion::retail
+            'version' => EndpointVersion::retail,
         ];
 
         if (array_key_exists('namespace', $options)) {
@@ -146,12 +149,13 @@ abstract class BlizzardApi {
         }
 
         $options = array_intersect_key($options, $defaultOptions);
+
         return http_build_query($queryString);
     }
 
     /**
-     * @param EndpointNamespace $namespace The endpoint namespace
-     * @param EndpointVersion $version The desired version of the endpoint
+     * @param  EndpointNamespace  $namespace  The endpoint namespace
+     * @param  EndpointVersion  $version  The desired version of the endpoint
      * @return string The appropriate namespace for the endpoint namespace, version and region
      */
     protected function endpointNamespace(EndpointNamespace $namespace, EndpointVersion $version = EndpointVersion::retail): string
@@ -160,20 +164,22 @@ abstract class BlizzardApi {
     }
 
     /**
-     * @param string $url API endpoint full url with querystring params
-     * @param int $responseStatus HTTP response code
+     * @param  string  $url  API endpoint full url with querystring params
+     * @param  int  $responseStatus  HTTP response code
      * @return string|null JSON object response
      */
-    public function execute(string $url, int &$responseStatus): string|null
+    public function execute(string $url, int &$responseStatus): ?string
     {
         try {
             $response = Http::withToken($this->accessToken)
                 ->get($url);
 
             $responseStatus = $response->status();
+
             return $response->body();
         } catch (Exception) {
             $responseStatus = 0;
+
             return null;
         }
     }
