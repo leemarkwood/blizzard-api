@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace LeeMarkWood\BlizzardApi\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class BlizzardApiCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'blizzard-api';
 
     public $description = 'My command';
 
