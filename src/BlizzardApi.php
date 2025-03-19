@@ -99,7 +99,7 @@ abstract class BlizzardApi
     {
         $url = $this->prepareURL($url, $options);
 
-        if(Cache::has($url)) {
+        if (Cache::has($url)) {
             return Cache::get($url);
         }
 
