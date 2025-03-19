@@ -5,6 +5,7 @@ namespace LeeMarkWood\BlizzardApi\WoW;
 use Exception;
 use LeeMarkWood\BlizzardApi\BlizzardApi;
 use LeeMarkWood\BlizzardApi\Enums\BaseURL;
+use LeeMarkWood\BlizzardApi\Enums\EndpointNamespace;
 use LeeMarkWood\BlizzardApi\Enums\Game;
 use LeeMarkWood\BlizzardApi\Enums\Region;
 use stdClass;
@@ -14,6 +15,8 @@ class GameData extends BlizzardApi
     public function __construct(?Region $region = null, ?string $accessToken = '')
     {
         $this->game = Game::WoW;
+        $this->endpointNamespace = EndpointNamespace::dynamic;
+        
         parent::__construct($region, $accessToken);
     }
 
@@ -34,6 +37,9 @@ class GameData extends BlizzardApi
      */
     public function getRealmList(array $options): array|stdClass
     {
+        $options = array_merge($options, ['namespace' => EndpointNamespace::dynamic]);
+
+
         return $this->performRequest($this->requestUrl('realm/index'), $options);
     }
 }
