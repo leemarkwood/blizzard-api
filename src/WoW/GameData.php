@@ -16,7 +16,7 @@ class GameData extends BlizzardApi
     {
         $this->game = Game::WoW;
         $this->endpointNamespace = EndpointNamespace::dynamic;
-        
+
         parent::__construct($region, $accessToken);
     }
 
@@ -38,7 +38,6 @@ class GameData extends BlizzardApi
     public function getRealmList(array $options): array|stdClass
     {
         $options = array_merge($options, ['namespace' => EndpointNamespace::dynamic]);
-
 
         return $this->performRequest($this->requestUrl('realm/index'), $options);
     }
