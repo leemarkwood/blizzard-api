@@ -36,7 +36,7 @@ class GameData extends BlizzardApi
      *
      * @link https://develop.battle.net/documentation/world-of-warcraft/game-data-apis
      */
-    public function getRealmList(array $options): array|stdClass
+    public function getRealmList(?array $options): array|stdClass
     {
         $options = array_merge($options, ['namespace' => EndpointNamespace::dynamic]);
 
@@ -46,7 +46,7 @@ class GameData extends BlizzardApi
     /**
      * @throws Exception
      */
-    public function item(Integer $item, array $options): array|stdClass
+    public function item(Integer $item, ?array $options): array|stdClass
     {
         return $this->performRequest($this->requestUrl('item/'. $item), $options);
     }
