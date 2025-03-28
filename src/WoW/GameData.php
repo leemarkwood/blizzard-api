@@ -48,6 +48,6 @@ class GameData extends BlizzardApi
      */
     public function item(Integer $item, ?array $options): array|stdClass
     {
-        return $this->performRequest($this->requestUrl('item/'. $item), $options);
+        return $this->performRequest($this->requestUrl('item/'.$item), $options);
     }
 }
