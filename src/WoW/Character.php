@@ -47,7 +47,7 @@ class Character extends BlizzardApi
     /**
      * @throws Exception
      */
-    public function profile(): array|stdClass
+    public function profile(array $options = []): array|stdClass
     {
         return $this->performRequest($this->requestUrl());
     }
@@ -59,7 +59,7 @@ class Character extends BlizzardApi
     /**
      * @throws Exception
      */
-    public function equipment($options): array|stdClass
+    public function equipment(array $options = []): array|stdClass
     {
         return $this->performRequest($this->requestUrl('equipment'), $options);
     }

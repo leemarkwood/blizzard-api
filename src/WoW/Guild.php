@@ -45,16 +45,16 @@ class Guild extends BlizzardApi
     /**
      * @throws Exception
      */
-    public function profile(): array|stdClass
+    public function profile(array $options): array|stdClass
     {
-        return $this->performRequest($this->requestUrl());
+        return $this->performRequest($this->requestUrl(), $options);
     }
 
     /**
      * @throws Exception
      */
-    public function roster(): array|stdClass
+    public function roster(array $options = []): array|stdClass
     {
-        return $this->performRequest($this->requestUrl('roster'));
+        return $this->performRequest($this->requestUrl('roster'), $options);
     }
 }
