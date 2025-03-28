@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LeeMarkWood\BlizzardApi\Facades;
 
 use Illuminate\Support\Facades\Facade;

@@ -17,7 +17,7 @@ class GameData extends BlizzardApi
     {
         $this->game = Game::WoW;
         $this->endpointNamespace = EndpointNamespace::dynamic;
-        
+
         parent::__construct($region, $accessToken);
     }
 

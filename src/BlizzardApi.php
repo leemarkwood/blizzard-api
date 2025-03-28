@@ -82,7 +82,7 @@ abstract class BlizzardApi
             if ($response->failed()) {
                 throw new \Exception('Unable to get access token from Blizzard.');
             }
- 
+
             $data = $response->json();
 
             return $data['access_token'] ?? null;
@@ -107,7 +107,7 @@ abstract class BlizzardApi
         $data = $this->execute($url, $responseCode);
 
         if ($responseCode === 200) {
-            return Cache::remember($url,$options['ttl'] ?? 86400, function () use ($data) {
+            return Cache::remember($url, $options['ttl'] ?? 86400, function () use ($data) {
                 return json_decode($data);
             });
         }

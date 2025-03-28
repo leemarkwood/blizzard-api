@@ -10,13 +10,14 @@ use LeeMarkWood\BlizzardApi\Enums\Game;
 use LeeMarkWood\BlizzardApi\Enums\Region;
 use stdClass;
 
-class Guild extends BlizzardApi {
-
+class Guild extends BlizzardApi
+{
     protected string $name {
         set {
             $this->name = Str::slug($value);
         }
     }
+
     protected string $realm {
         set {
             $this->realm = Str::slug($value);
@@ -56,5 +57,4 @@ class Guild extends BlizzardApi {
     {
         return $this->performRequest($this->requestUrl('roster'));
     }
-
 }
