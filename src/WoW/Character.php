@@ -59,8 +59,8 @@ class Character extends BlizzardApi
     /**
      * @throws Exception
      */
-    public function equipment(): array|stdClass
+    public function equipment($options): array|stdClass
     {
-        return $this->performRequest($this->requestUrl('equipment'));
+        return $this->performRequest($this->requestUrl('equipment'), $options);
     }
 }
