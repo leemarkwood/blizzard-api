@@ -50,8 +50,11 @@ class GameData extends BlizzardApi
         return $this->performRequest($this->requestUrl('item/'.$item), $options);
     }
 
+    /**
+     * @throws Exception
+     */
     public function itemMedia(int $item, array $options = []): array|stdClass
     {
-        return $this->performRequest($this->requestUrl('/media/item/'.$item), $options);
+        return $this->performRequest($this->requestUrl('media/item/'.$item), $options);
     }
 }
