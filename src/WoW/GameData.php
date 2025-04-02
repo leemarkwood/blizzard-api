@@ -8,7 +8,6 @@ use LeeMarkWood\BlizzardApi\Enums\BaseURL;
 use LeeMarkWood\BlizzardApi\Enums\EndpointNamespace;
 use LeeMarkWood\BlizzardApi\Enums\Game;
 use LeeMarkWood\BlizzardApi\Enums\Region;
-use phpDocumentor\Reflection\Types\Integer;
 use stdClass;
 
 class GameData extends BlizzardApi
